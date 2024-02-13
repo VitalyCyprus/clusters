@@ -1,0 +1,3 @@
+/Users/v.bezugly/work/clusters/build/Debug/CMakeFiles/clusters.dir
+/Users/v.bezugly/work/clusters/build/Debug/CMakeFiles/edit_cache.dir
+/Users/v.bezugly/work/clusters/build/Debug/CMakeFiles/rebuild_cache.dir
