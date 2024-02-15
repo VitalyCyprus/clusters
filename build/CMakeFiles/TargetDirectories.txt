@@ -1,0 +1,3 @@
+/home/bvi/work/clusters/build/CMakeFiles/clusters.dir
+/home/bvi/work/clusters/build/CMakeFiles/edit_cache.dir
+/home/bvi/work/clusters/build/CMakeFiles/rebuild_cache.dir

@@ -7,18 +7,18 @@
 
 int main(int argc, char** argv) {
     std::cout << "OpenCV version: " << CV_VERSION << std::endl;
-    std::string filename = "/Users/bvi/test.png";
+    std::string filename = "/home/bvi/d3.png";
     if(argc > 1) 
     {
         filename = argv[1];
     }
     std::cout << "Image: " << filename << std::endl;
-    cv::Mat img = cv::imread(filename);
+    cv::Mat img = cv::imread(filename, cv::IMREAD_GRAYSCALE);
     if (img.empty()) {
         std::cerr << "Image not found" << std::endl;
         return 1;
     }
-    cv::cvtColor(img, img, cv::COLOR_BGR2GRAY);
+    //cv::cvtColor(img, img, cv::COLOR_BGR2GRAY);
     cv::blur(img, img, cv::Size(3, 3));
     std::cout << "Image size: " << img.size() << std::endl;
     cv::namedWindow("Image", cv::WINDOW_NORMAL);
@@ -28,14 +28,16 @@ int main(int argc, char** argv) {
         {
             cv::Mat* image = static_cast<cv::Mat*>(userdata);
             cv::Mat img = *image;   //->clone();
-            cv::rectangle(img, cv::Rect(x-1, y-1, 100, 100), cv::Scalar(255));
+            //cv::rectangle(img, cv::Rect(x-1, y-1, 100, 100), cv::Scalar(255));
             cv::Point p(x, y);
             std::cout << "Point: " << x << ", " << y << " = " << static_cast<int>(img.at<uchar>(p)) << std::endl;
             BFSCluster cluster;
             uchar start_value = img.at<uchar>(p);
-            int threshold = 1;
+            int threshold = 3;
             int count = cluster.build(img, p, [start_value, &img, threshold](cv::Point const& p)
             {
+                //std::cout << "compare: " << p << " -> " << (int) img.at<uchar>(p) << " - " << (int) start_value << " = " << std::abs(img.at<uchar>(p) - start_value) << " <= " << threshold << std::endl;
+                std::cout.flush();
                 return std::abs(img.at<uchar>(p) - start_value) <= threshold;
             });
 

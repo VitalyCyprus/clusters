@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Release Version",
+      "label": "run[release]",
       "type": "shell",
-      "command": "./build/Release/clusters",
+      "command": "./build/clusters",
       "group": {
         "kind": "build",
         "isDefault": false
@@ -13,19 +13,19 @@
       "detail": "Запуск скомпилированной релизной версии проекта."
     },
     {
-      "label": "CMake Build Debug",
+      "label": "build[bebug]",
       "type": "shell",
       "command": "cmake",
       "args": [
         "-S",
         ".",
         "-B",
-        "build/Debug",
+        "build",
         "-DCMAKE_BUILD_TYPE=Debug",
         "&&",
         "cmake",
         "--build",
-        "build/Debug"
+        "build"
       ],
       "group": "build",
       "problemMatcher": [
@@ -33,19 +33,19 @@
       ]
     },
     {
-      "label": "CMake Build Release",
+      "label": "build[release]",
       "type": "shell",
       "command": "cmake",
       "args": [
         "-S",
         ".",
         "-B",
-        "build/Release",
+        "build",
         "-DCMAKE_BUILD_TYPE=Release",
         "&&",
         "cmake",
         "--build",
-        "build/Release"
+        "build"
       ],
       "group": "build",
       "problemMatcher": [
@@ -53,35 +53,23 @@
       ]
     },
     {
-      "label": "Full Clean Release Build",
+      "label": "clean",
       "type": "shell",
       "command": "rm",
       "args": [
         "-rf",
-        "build/Release/*"
-      ],
-      "group": "build",
-      "problemMatcher": [],
-      "detail": "Полное удаление всех файлов в директории релизной сборки."
-    },
-    {
-      "label": "Full Clean Debug Build",
-      "type": "shell",
-      "command": "rm",
-      "args": [
-        "-rf",
-        "build/Debug/*"
+        "build/*"
       ],
       "group": "build",
       "problemMatcher": [],
       "detail": "Полное удаление всех файлов в директории отладочной сборки."
     },
     {
-      "label": "CMake Rebuild Release",
+      "label": "rebuild[release]",
       "type": "shell",
       "dependsOn": [
-        "Full Clean Release Build",
-        "CMake Build Release"
+        "clean",
+        "build[release]"
       ],
       "group": "build",
       "problemMatcher": [
@@ -90,11 +78,11 @@
       "detail": "Очистка и сборка релизной версии проекта."
     },
     {
-      "label": "CMake Rebuild Debug",
+      "label": "rebuild[debug]",
       "type": "shell",
       "dependsOn": [
-        "Full Clean Debug Build",
-        "CMake Build Debug"
+        "clean",
+        "build[debug]"
       ],
       "group": "build",
       "problemMatcher": [
@@ -103,33 +91,15 @@
       "detail": "Очистка и сборка отладочной версии проекта."
     },
     {
-      "label": "Run Debug Version",
+      "label": "run",
       "type": "shell",
-      "command": "./build/Debug/${workspaceFolderBasename}/clusters",
+      "command": "./build/clusters",
       "group": {
         "kind": "test",
         "isDefault": false
       },
       "problemMatcher": [],
       "detail": "Запуск скомпилированной отладочной версии проекта."
-    },
-    {
-      "type": "process",
-      "command": "/usr/bin/env",
-      "args": [
-        "CC=clang",
-        "CFLAGS=-g -Wall",
-        "make",
-        "${fileBasenameNoExtension}"
-      ],
-      "options": {
-        "cwd": "${fileDirname}"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "label": "makelldb: selected file"
     }
   ]
 }

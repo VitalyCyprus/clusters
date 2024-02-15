@@ -51,7 +51,7 @@ public:
             for (auto const& direction: directions)
             {
                 cv::Point next = current + direction;
-                std::cout << "next: " << next << std::endl;
+                //std::cout << "direction: " << direction << " ";
                 if (isInBounds(m, next) && !visited.isVisited(next)) 
                 {
                     if(compare(next)) 
