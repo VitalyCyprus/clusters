@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/Users/bvi/work/clusters")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/bvi/work/clusters/build/Debug")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/bvi/work/clusters/build")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

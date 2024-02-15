@@ -4,7 +4,7 @@
 # compile CXX with /Library/Developer/CommandLineTools/usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/v.bezugly/work/clusters/include -isystem /opt/homebrew/Cellar/opencv/4.9.0_2/include/opencv4
+CXX_INCLUDES = -I/Users/bvi/work/clusters/include -I/Users/bvi/work/clusters/. -isystem /opt/homebrew/Cellar/opencv/4.9.0_2/include/opencv4
 
 CXX_FLAGSarm64 = -g -DDEBUG -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk
 
