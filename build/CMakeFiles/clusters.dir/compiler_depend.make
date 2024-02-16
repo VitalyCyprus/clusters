@@ -854,8 +854,11 @@ CMakeFiles/clusters.dir/main.cpp.o: ../main.cpp \
   /usr/local/include/opencv4/opencv2/stitching/detail/camera.hpp \
   /usr/local/include/opencv4/opencv2/video.hpp \
   /usr/local/include/opencv4/opencv2/video/tracking.hpp \
-  /usr/local/include/opencv4/opencv2/video/background_segm.hpp
+  /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
+  ../Clusters.hpp
 
+
+../Clusters.hpp:
 
 ../clusters.hpp:
 

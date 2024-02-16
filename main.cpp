@@ -1,4 +1,5 @@
 #include <clusters.hpp>
+#include <Clusters.hpp>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
@@ -11,6 +12,7 @@ void clickCluster(cv::Mat &img);
 cv::Mat KMeansWithMorphology(cv::Mat const& image, const int K = 3, int morph_size = 2);
 
 cv::Mat KMeans(cv::Mat const& image, const int K = 3); 
+cv::Mat foobar(cv::Mat const& gray);
 
 int main(int argc, char** argv) {
     std::cout << "OpenCV version: " << CV_VERSION << std::endl;
@@ -28,23 +30,69 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    //cv::GaussianBlur(image, image, cv::Size(5, 5), 0);
+    //cv::GaussianBlur(img, img, cv::Size(4, 4), 0);
     cv::blur(img, img, cv::Size(3, 3));
-    //cv::equalizeHist(img, img);
-    
+    //Bcv::equalizeHist(img, img);
 
     //auto k_means_image = KMeans(img, 6);
     auto k_means_morphology_image = KMeansWithMorphology(img, 6, 2);
 
+    auto all_clusters = Clusters::findClusters(k_means_morphology_image);
+
+    cv::Mat result = img.clone();
+
+    size_t max_area = (result.cols*result.rows);
+
+    for (auto const& cluster: all_clusters)
+    {
+        //if(max_area < cluster.area())
+        if((cluster.area() < 100000) && (cluster.area() > 100))
+        {
+            std::cout << "Cluster area: " << cluster.area() << std::endl;
+            std::cout << "Cluster centroid: " << cluster.centroid() << std::endl;
+            cluster.draw(result);
+        }
+    }
+
+    
+    //auto foobar_image = foobar(k_means_morphology_image);
+
+/*
+    auto all_clusters = Clusters::findClusters(k_means_morphology_image);
+
+    cv::Mat result = img.clone();
+
+    size_t max_area = (result.cols*result.rows);
+
+    for (auto const& cluster: all_clusters)
+    {
+        //if(max_area < cluster.area())
+        if((cluster.area() < 100000) && (cluster.area() > 100))
+        {
+            std::cout << "Cluster area: " << cluster.area() << std::endl;
+            std::cout << "Cluster centroid: " << cluster.centroid() << std::endl;
+            cluster.draw(result);
+        }
+    }
+
+    for (auto const& cluster: all_clusters)
+    {
+        std::cout << "Cluster area: " << cluster.area() << std::endl;
+        std::cout << "Cluster centroid: " << cluster.centroid() << std::endl;
+
+    }
+*/
     // cv::namedWindow("KMeans", cv::WINDOW_NORMAL);
     // cv::imshow("KMeans", k_means_image);
 
     cv::namedWindow("KMeansWithMorphology", cv::WINDOW_NORMAL);
     cv::imshow("KMeansWithMorphology", k_means_morphology_image);
+    cv::namedWindow("Result", cv::WINDOW_NORMAL);
+    cv::imshow("Result", result);
+    // cv::namedWindow("foobar", cv::WINDOW_NORMAL);
+    // cv::imshow("foobar", foobar_image);
 
     cv::waitKey(0);
-
-
 
     return 0;
 

@@ -53,5 +53,31 @@ cv::Mat KMeansWithMorphology(cv::Mat const& image, const int K, int morph_size) 
     cv::erode(morph_result, morph_result, element);
 
     // Отображение результата
-    return morph_result;
+   return morph_result;
+}
+
+cv::Mat foobar(cv::Mat const& gray)
+{
+    // Применение алгоритма Собеля
+    cv::Mat grad_x, grad_y;
+    cv::Mat abs_grad_x, abs_grad_y;
+    cv::Mat grad;
+
+    int ddepth = CV_16S; // Глубина изображения
+    int ksize = 3; // Размер ядра Собеля
+    double scale = 1;
+    double delta = 0;
+
+    // Градиент по X
+    cv::Sobel(gray, grad_x, ddepth, 1, 0, ksize, scale, delta, cv::BORDER_DEFAULT);
+    cv::convertScaleAbs(grad_x, abs_grad_x);
+
+    // Градиент по Y
+    cv::Sobel(gray, grad_y, ddepth, 0, 1, ksize, scale, delta, cv::BORDER_DEFAULT);
+    cv::convertScaleAbs(grad_y, abs_grad_y);
+
+    // Объединение градиентов
+    cv::addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);    
+
+    return grad;
 }
