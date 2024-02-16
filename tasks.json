@@ -1,0 +1,105 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "run[release]",
+      "type": "shell",
+      "command": "./clusters",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "detail": "Запуск скомпилированной релизной версии проекта."
+    },
+    {
+      "label": "build[bebug]",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        ".",
+        "-B",
+        "build",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "&&",
+        "cmake",
+        "--build",
+        "build"
+      ],
+      "group": "build",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "build[release]",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        ".",
+        "-B",
+        "build",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "&&",
+        "cmake",
+        "--build",
+        "build"
+      ],
+      "group": "build",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "clean",
+      "type": "shell",
+      "command": "rm",
+      "args": [
+        "-rf",
+        "build/*"
+      ],
+      "group": "build",
+      "problemMatcher": [],
+      "detail": "Полное удаление всех файлов в директории отладочной сборки."
+    },
+    {
+      "label": "rebuild[release]",
+      "type": "shell",
+      "dependsOn": [
+        "clean",
+        "build[release]"
+      ],
+      "group": "build",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "detail": "Очистка и сборка релизной версии проекта."
+    },
+    {
+      "label": "rebuild[debug]",
+      "type": "shell",
+      "dependsOn": [
+        "clean",
+        "build[debug]"
+      ],
+      "group": "build",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "detail": "Очистка и сборка отладочной версии проекта."
+    },
+    {
+      "label": "run",
+      "type": "shell",
+      "command": "./build/clusters",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "detail": "Запуск скомпилированной отладочной версии проекта."
+    }
+  ]
+}

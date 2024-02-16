@@ -11,7 +11,7 @@ void clickCluster(cv::Mat &img);
 
 int main(int argc, char** argv) {
     std::cout << "OpenCV version: " << CV_VERSION << std::endl;
-    std::string filename = "/Users/bvi/test.png";
+    std::string filename = "/Users/bvi/3d.png";
     if(argc > 1) 
     {
         filename = argv[1];
