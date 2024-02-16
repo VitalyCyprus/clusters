@@ -129,6 +129,30 @@ clusters/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/clusters.dir/build.make CMakeFiles/clusters.dir/build
 .PHONY : clusters/fast
 
+kMeans.o: kMeans.cpp.o
+.PHONY : kMeans.o
+
+# target to build an object file
+kMeans.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/clusters.dir/build.make CMakeFiles/clusters.dir/kMeans.cpp.o
+.PHONY : kMeans.cpp.o
+
+kMeans.i: kMeans.cpp.i
+.PHONY : kMeans.i
+
+# target to preprocess a source file
+kMeans.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/clusters.dir/build.make CMakeFiles/clusters.dir/kMeans.cpp.i
+.PHONY : kMeans.cpp.i
+
+kMeans.s: kMeans.cpp.s
+.PHONY : kMeans.s
+
+# target to generate assembly for a file
+kMeans.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/clusters.dir/build.make CMakeFiles/clusters.dir/kMeans.cpp.s
+.PHONY : kMeans.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... clusters"
+	@echo "... kMeans.o"
+	@echo "... kMeans.i"
+	@echo "... kMeans.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

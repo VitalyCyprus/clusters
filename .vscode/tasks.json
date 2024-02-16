@@ -79,8 +79,9 @@
         { 
             "label": "build and run (release)",
             "type": "shell",
-            "command": "make -j11 && terminator -e \"./clusters\"",       
-            "args": [],
+            "command": "./clusters",//make -j11",       
+            "args": [],//
+            "./clusters"],
             "options": {
                 "cwd": "./build"
             },
@@ -103,3 +104,5 @@
         }       
     ]
 }
+
+

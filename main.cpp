@@ -8,16 +8,46 @@
 void findAllClusters(cv::Mat &img, int min_size = 100, int max_size = 200000, int d = 80);
 size_t BfsBuild(int x, int y, cv::Mat &img, BFSCluster &cluster, int threshold);
 void clickCluster(cv::Mat &img);
+cv::Mat KMeansWithMorphology(cv::Mat const& image, const int K = 3, int morph_size = 2);
+
+cv::Mat KMeans(cv::Mat const& image, const int K = 3); 
 
 int main(int argc, char** argv) {
     std::cout << "OpenCV version: " << CV_VERSION << std::endl;
-    std::string filename = "/Users/bvi/3d.png";
+    std::string filename = "/home/bvi/d3.png";
     if(argc > 1) 
     {
         filename = argv[1];
     }
     std::cout << "Image: " << filename << std::endl;
     cv::Mat img = cv::imread(filename, cv::IMREAD_GRAYSCALE);
+
+    if(img.empty()) 
+    {
+        std::cerr << "Image not found" << std::endl;
+        return 1;
+    }
+
+    //cv::GaussianBlur(image, image, cv::Size(5, 5), 0);
+    cv::blur(img, img, cv::Size(3, 3));
+    //cv::equalizeHist(img, img);
+    
+
+    //auto k_means_image = KMeans(img, 6);
+    auto k_means_morphology_image = KMeansWithMorphology(img, 6, 2);
+
+    // cv::namedWindow("KMeans", cv::WINDOW_NORMAL);
+    // cv::imshow("KMeans", k_means_image);
+
+    cv::namedWindow("KMeansWithMorphology", cv::WINDOW_NORMAL);
+    cv::imshow("KMeansWithMorphology", k_means_morphology_image);
+
+    cv::waitKey(0);
+
+
+
+    return 0;
+
     if (img.empty()) {
         std::cerr << "Image not found" << std::endl;
         return 1;

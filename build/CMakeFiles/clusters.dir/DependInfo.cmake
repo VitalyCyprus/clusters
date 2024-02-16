@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/bvi/work/clusters/kMeans.cpp" "CMakeFiles/clusters.dir/kMeans.cpp.o" "gcc" "CMakeFiles/clusters.dir/kMeans.cpp.o.d"
   "/home/bvi/work/clusters/main.cpp" "CMakeFiles/clusters.dir/main.cpp.o" "gcc" "CMakeFiles/clusters.dir/main.cpp.o.d"
   )
 

@@ -81,12 +81,12 @@ clean: CMakeFiles/clusters.dir/clean
 CMakeFiles/clusters.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/clusters.dir/build.make CMakeFiles/clusters.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/clusters.dir/build.make CMakeFiles/clusters.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/bvi/work/clusters/build/CMakeFiles --progress-num=1,2 "Built target clusters"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/bvi/work/clusters/build/CMakeFiles --progress-num=1,2,3 "Built target clusters"
 .PHONY : CMakeFiles/clusters.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/clusters.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bvi/work/clusters/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bvi/work/clusters/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/clusters.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/bvi/work/clusters/build/CMakeFiles 0
 .PHONY : CMakeFiles/clusters.dir/rule

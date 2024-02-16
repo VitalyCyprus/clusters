@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/clusters.dir/kMeans.cpp.o"
+  "CMakeFiles/clusters.dir/kMeans.cpp.o.d"
   "CMakeFiles/clusters.dir/main.cpp.o"
   "CMakeFiles/clusters.dir/main.cpp.o.d"
   "clusters"
