@@ -5,9 +5,13 @@
 
 #include <iostream>
 
+void findAllClusters(cv::Mat &img, int min_size = 100, int max_size = 200000, int d = 80);
+size_t BfsBuild(int x, int y, cv::Mat &img, BFSCluster &cluster, int threshold);
+void clickCluster(cv::Mat &img);
+
 int main(int argc, char** argv) {
     std::cout << "OpenCV version: " << CV_VERSION << std::endl;
-    std::string filename = "/home/bvi/d3.png";
+    std::string filename = "/Users/bvi/test.png";
     if(argc > 1) 
     {
         filename = argv[1];
@@ -18,78 +22,86 @@ int main(int argc, char** argv) {
         std::cerr << "Image not found" << std::endl;
         return 1;
     }
-    //cv::cvtColor(img, img, cv::COLOR_BGR2GRAY);
     cv::blur(img, img, cv::Size(3, 3));
     std::cout << "Image size: " << img.size() << std::endl;
     cv::namedWindow("Image", cv::WINDOW_NORMAL);
-    cv::setMouseCallback("Image", [](int event, int x, int y, int, void* userdata)
+
+    //clickCluster(img);
+    findAllClusters(img, 1, 2000000, 80);
+
+    cv::imshow("Image", img);
+    cv::waitKey(0);
+    return 0;
+}
+
+void clickCluster(cv::Mat &img)
+{
+   cv::setMouseCallback("Image", [](int event, int x, int y, int, void* userdata)
     {
         if (event == cv::EVENT_LBUTTONDOWN)
         {
             cv::Mat* image = static_cast<cv::Mat*>(userdata);
-            cv::Mat img = *image;   //->clone();
-            //cv::rectangle(img, cv::Rect(x-1, y-1, 100, 100), cv::Scalar(255));
-            cv::Point p(x, y);
-            std::cout << "Point: " << x << ", " << y << " = " << static_cast<int>(img.at<uchar>(p)) << std::endl;
-            BFSCluster cluster;
-            uchar start_value = img.at<uchar>(p);
-            int threshold = 3;
-            int count = cluster.build(img, p, [start_value, &img, threshold](cv::Point const& p)
-            {
-                //std::cout << "compare: " << p << " -> " << (int) img.at<uchar>(p) << " - " << (int) start_value << " = " << std::abs(img.at<uchar>(p) - start_value) << " <= " << threshold << std::endl;
-                std::cout.flush();
-                return std::abs(img.at<uchar>(p) - start_value) <= threshold;
-            });
+            cv::Mat &img = *image; 
+            std::cout << "Point: " << x << ", " << y << " = " << static_cast<int>(img.at<uchar>(y, x)) << std::endl;
+            BFSCluster cluster(img.cols, img.rows);
+            size_t count = BfsBuild(x, y, img, cluster, 1);
+            // int count = cluster.build(img, p, [start_value, &img, threshold](cv::Point const& p)
+            // {
+            //     //std::cout << "compare: " << p << " -> " << (int) img.at<uchar>(p) << " - " << (int) start_value << " = " << std::abs(img.at<uchar>(p) - start_value) << " <= " << threshold << std::endl;
+            //     std::cout.flush();
+            //     return std::abs(img.at<uchar>(p) - start_value) <= threshold;
+            // });
 
             auto const& points = cluster.points();
             std::cout << "cluster size: " << points.size() << ", " << count << std::endl;
-            for (auto const& p: points)
+            for (auto const& cur: points)
             {
-                img.at<uchar>(p) = 255;
-                //std::cout << p << " = " << static_cast<int>(img.at<uchar>(p)) << std::endl;
+                img.at<uchar>(cur) = 255;
+                std::cout << cur << " ";
             }
-            //std::cout << "drawing result..." << std::endl;
-            //cv::namedWindow("Result", cv::WINDOW_NORMAL);
-            //cv::imshow("Result", img);
             cv::imshow("Image", img);
-            // std::cout << "showing result..." << std::endl;
-            // //cv::waitKey(0);
-            // std::cout << "done" << std::endl;
         }
-    }, &img);
+    }, &img);    
+}
 
-/*
-    int d = 80;
-
-    BFSCluster cluster;
-    for (int i = d; i < img.rows; i+=d)
+void findAllClusters(cv::Mat& img, int min_size, int max_size, int d)
+{
+    BFSCluster cluster(img.cols, img.rows);
+    for (int y = d; y < img.rows; y+=d)
     {
-        std::cout << "[" << i << "]: ";
+        std::cout << "{[" << y << "]}: ";
         std::cout.flush();
-        for (int j = d; j < img.cols; j+=d)
+        for (int x = d; x < img.cols; x+=d)
         {
             std::cout << ".";
             std::cout.flush();
-            cluster.build(img, cv::Point(j, i), 1);
+            //BFSCluster cluster(img.cols, img.rows);
+            size_t count = BfsBuild(x, y, img, cluster, 1);
+
             auto const& points = cluster.points();
-            //cv::circle(img, cv::Point(j, i), 3, cv::Scalar(255));
-            if (points.size() < 100)// || points.size() > 80000)
+            //if ((points.size() > min_size) && (points.size() < max_size))// 80000)
             {
-                continue;
+                std::cout << "cluster size: " << points.size() << std::endl;
+                for (auto const& p: points)
+                {
+                    img.at<uchar>(p) = 255;
+                }
             }
-            //cv::Rect rect = cv::boundingRect(points);
-            //cv::rectangle(img, rect, cv::Scalar(255));
-            std::cout << "cluster size: " << points.size() << std::endl;
-            //cv::imshow("Image", img);
-            for (auto const& p: points)
-            {
-                img.at<uchar>(p) = 255;
-            }
+            // else{
+            //     std::cout << "cluster size: " << points.size() << " - skipped" << std::endl;  
+            // }
         }
         std::cout << std::endl;
     }
-*/
-    cv::imshow("Image", img);
-    cv::waitKey(0);
-    return 0;
+}
+
+size_t BfsBuild(int x, int y, cv::Mat &img, BFSCluster &cluster, int threshold)
+{
+    cv::Point p(x, y);
+    uchar start_value = img.at<uchar>(p);
+    return cluster.build(img, p, [start_value, &img, threshold](cv::Point const &p)
+    {
+        std::cout.flush();
+        return std::abs(img.at<uchar>(p) - start_value) <= threshold; 
+    });
 }
